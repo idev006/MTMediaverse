@@ -1,0 +1,47 @@
+# Virtual Environment
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Database
+*.db
+*.sqlite3
+
+# Logs
+*.log
+app/logs/
+
+# Temp
+temp/
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PyInstaller
+dist_obfuscated/
+
+# Test data
+tests/test_data/

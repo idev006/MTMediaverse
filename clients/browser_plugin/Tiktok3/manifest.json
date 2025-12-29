@@ -1,0 +1,52 @@
+{
+    "manifest_version": 3,
+    "name": "TikTok Auto Uploader v5.1",
+    "version": "5.1.0",
+    "description": "OOP + Vue.js - Automated TikTok video uploader",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "clipboardWrite"
+    ],
+    "host_permissions": [
+        "http://127.0.0.1:8000/*",
+        "https://www.tiktok.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.tiktok.com/*"
+            ],
+            "js": [
+                "lib/vue.global.prod.js",
+                "src/Namespace.js",
+                "src/StateManager.js",
+                "src/ApiClient.js",
+                "src/HumanLike.js",
+                "src/PageHandler.js",
+                "src/AutomationEngine.js",
+                "src/App.js",
+                "content.js"
+            ],
+            "css": [
+                "style.css"
+            ],
+            "run_at": "document_idle",
+            "all_frames": false
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "lib/*",
+                "src/*"
+            ],
+            "matches": [
+                "*://www.tiktok.com/*"
+            ]
+        }
+    ]
+}

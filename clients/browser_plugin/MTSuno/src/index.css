@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scoped root to avoid affecting site styles too much, though strict isolation requires shadow dom */
+#mt-suno-root {
+    @apply font-sans antialiased text-white;
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    z-index: 10000;
+}

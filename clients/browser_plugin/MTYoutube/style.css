@@ -1,0 +1,532 @@
+/**
+ * YouTube Uploader Sidebar Styles
+ * Theme: Aero Glassy Aurora
+ * Description: Modern glassmorphism with dynamic aurora gradients and blurring
+ */
+
+/* =========================================
+   Variables & Animations
+   ========================================= */
+:root {
+    --glass-bg: rgba(15, 15, 25, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.15);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+    --aurora-1: #7928ca;
+    /* Purple */
+    --aurora-2: #ff0080;
+    /* Pink */
+    --aurora-3: #00dfd8;
+    /* Cyan */
+
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-tertiary: rgba(255, 255, 255, 0.4);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    --font-stack: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+@keyframes aurora-bg {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 223, 216, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(0, 223, 216, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 223, 216, 0);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   Base Layout
+   ========================================= */
+.ytu-sidebar,
+.ytu-sidebar * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-stack);
+    -webkit-font-smoothing: antialiased;
+}
+
+.ytu-sidebar {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: 450px;
+    /* Use height calc to account for top/bottom spacing */
+    height: calc(100vh - 20px);
+
+    /* Glass Effect */
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+    /* Border & Shadow */
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-primary);
+    font-size: 13px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Optional: Add a subtle inner gradient overlay */
+.ytu-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(121, 40, 202, 0.15), transparent 40%),
+        radial-gradient(circle at bottom left, rgba(0, 223, 216, 0.1), transparent 40%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.ytu-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.ytu-container.collapsed {
+    opacity: 0.8;
+}
+
+/* =========================================
+   Header
+   ========================================= */
+.ytu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.03);
+    user-select: none;
+    cursor: default;
+    /* Handle double click logic in JS */
+}
+
+.ytu-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #fff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.ytu-logo {
+    font-size: 24px;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+}
+
+.ytu-status {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+}
+
+.ytu-status.online {
+    background: linear-gradient(135deg, rgba(0, 200, 83, 0.2), rgba(0, 200, 83, 0.1));
+    border-color: rgba(0, 200, 83, 0.3);
+    color: #4caf50;
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.2);
+}
+
+/* =========================================
+   Progress Bar
+   ========================================= */
+.ytu-progress {
+    padding: 20px 24px;
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.ytu-progress-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.ytu-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--aurora-3), var(--aurora-1));
+    background-size: 200% 200%;
+    animation: aurora-bg 3s ease infinite;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(0, 223, 216, 0.5);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ytu-progress-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.ytu-stats {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-family: 'Consolas', monospace;
+}
+
+/* =========================================
+   Tabs
+   ========================================= */
+.ytu-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 0 12px;
+}
+
+.ytu-tabs button {
+    flex: 1;
+    padding: 14px 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.ytu-tabs button:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ytu-tabs button.active {
+    color: var(--aurora-3);
+    text-shadow: 0 0 10px rgba(0, 223, 216, 0.4);
+}
+
+.ytu-tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--aurora-3), var(--aurora-1));
+    box-shadow: 0 -2px 10px rgba(0, 223, 216, 0.5);
+}
+
+/* =========================================
+   Content Area
+   ========================================= */
+.ytu-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.ytu-tab-content {
+    animation: slide-up 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* =========================================
+   Actions & Buttons
+   ========================================= */
+.ytu-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+button {
+    padding: 10px 18px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--glass-highlight);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(1);
+}
+
+button.primary {
+    background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
+    border: none;
+    box-shadow: 0 4px 15px rgba(121, 40, 202, 0.3);
+}
+
+button.primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #8a3dd6, #ff1a8c);
+    box-shadow: 0 6px 20px rgba(121, 40, 202, 0.5);
+}
+
+button.danger {
+    background: rgba(255, 50, 50, 0.1);
+    border-color: rgba(255, 50, 50, 0.3);
+    color: #ff5252;
+}
+
+button.danger:hover:not(:disabled) {
+    background: rgba(255, 50, 50, 0.2);
+    box-shadow: 0 4px 15px rgba(255, 82, 82, 0.2);
+}
+
+/* =========================================
+   Queue List
+   ========================================= */
+.ytu-queue {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-md);
+    padding: 8px;
+    border: 1px solid var(--glass-border);
+}
+
+.ytu-current {
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(121, 40, 202, 0.2), rgba(0, 223, 216, 0.2));
+    border: 1px solid rgba(121, 40, 202, 0.4);
+    color: white;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: pulse-glow 3s infinite;
+}
+
+.ytu-queue-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.ytu-queue-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-primary);
+}
+
+.ytu-queue-item:last-child {
+    border-bottom: none;
+}
+
+.ytu-empty {
+    text-align: center;
+    color: var(--text-tertiary);
+    padding: 40px;
+    font-style: italic;
+}
+
+/* =========================================
+   Settings Forms
+   ========================================= */
+.ytu-setting {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+}
+
+.ytu-setting label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ytu-setting input[type="text"],
+.ytu-setting input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.ytu-setting input[type="text"]:focus,
+.ytu-setting input[type="number"]:focus {
+    outline: none;
+    border-color: var(--aurora-3);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 15px rgba(0, 223, 216, 0.1);
+}
+
+.ytu-setting input[type="range"] {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    -webkit-appearance: none;
+    margin-top: 10px;
+}
+
+.ytu-setting input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--aurora-3);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 223, 216, 0.5);
+    transition: transform 0.2s;
+}
+
+.ytu-setting input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+/* =========================================
+   Log Console
+   ========================================= */
+.ytu-log-box {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    height: 450px;
+    overflow-y: auto;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ytu-log-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.ytu-log-item .time {
+    color: var(--text-tertiary);
+    min-width: 65px;
+}
+
+.ytu-log-item .msg {
+    color: var(--text-secondary);
+    word-break: break-word;
+}
+
+.ytu-log-item.error .msg {
+    color: #ff5252;
+}
+
+.ytu-log-item.warning .msg {
+    color: #ffd740;
+}
+
+.ytu-log-item.success .msg {
+    color: #69f0ae;
+}
+
+/* =========================================
+   Scrollbars
+   ========================================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

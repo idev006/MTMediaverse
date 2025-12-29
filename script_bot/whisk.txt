@@ -1,0 +1,363 @@
+//////////////////////////////////////////////////////////////////////////////////////////////
+//https://labs.google/fx/tools/whisk
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+(async () => {
+    // ==========================================
+    // ⚙️ CONFIGURATION
+    // ==========================================
+    const CONFIG = {
+        delays: {
+            typing: [30, 90],
+            action: [800, 2000],
+            jobInterval: [10000, 20000]
+        },
+        selectors: {
+            rootPanelContainer: 'div[style*="opacity: 1"]',
+            submitBtn: 'button[aria-label="Submit prompt"]',
+            ratioBtn: 'button[aria-haspopup="dialog"]',
+            ratioOptionSpan: 'button span',
+            
+            // Selector ของตัวปัญหา (Modal)
+            modalDialog: 'div[role="dialog"]',
+            modalCloseBtn: 'button[aria-label="Close"], button[type="button"], button svg' 
+        }
+    };
+
+    // ==========================================
+    // 📂 DUMMY DATA (10 Beautiful Sky Prompts)
+    // ==========================================
+    const DUMMY_JOBS = [
+        { 
+            // 1. แสงเหนือ (Aurora) - เน้นความอลังการ
+            prompt: "Breathtaking Aurora Borealis over a snow-covered mountain range, vibrant green and purple night sky, reflection in a frozen lake, long exposure photography, 8k resolution, hyperrealistic", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 2. ทางช้างเผือก (Milky Way) - เหมาะทำ Wallpaper มือถือ
+            prompt: "The Milky Way galaxy clearly visible above a silhouette of a lone tree in a desert, millions of stars, deep blue night sky, astrophotography style, sharp focus, majestic", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 3. พระอาทิตย์ตกริมทะเล (Golden Hour) - สีสันอบอุ่น
+            prompt: "Majestic sunset over a calm ocean, cotton candy clouds, gradient sky from orange to purple, golden hour lighting, cinematic shot, peaceful atmosphere, wide angle", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 4. พายุฝนฟ้าคะนอง (Storm) - ดูดุดัน ทรงพลัง
+            prompt: "Dramatic thunderstorm supercell clouds over a wheat field, ominous dark blue and grey clouds, lightning bolt striking in the distance, intense mood, high contrast, 4k", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 5. ทะเลหมอกยามเช้า (Morning Mist) - นุ่มนวล ชวนฝัน
+            prompt: "Serene sunrise over a misty mountain valley, soft morning light piercing through the fog, pastel pink and blue sky, ethereal atmosphere, dreamlike, landscape photography", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 6. รุ้งกินน้ำคู่ (Double Rainbow) - สดใส
+            prompt: "Vivid double rainbow stretching across a lush green rolling hill after rain, bright blue sky with fluffy white cumulus clouds, fresh atmosphere, highly detailed, nature photography", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 7. ท้องฟ้ายามเย็นในเมือง (Blue Hour) - ทันสมัย
+            prompt: "Modern city skyline at twilight blue hour, deep blue sky mixed with city lights, long exposure of car trails on the road, urban landscape, architectural photography, 8k", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 8. เมฆรูปทรงแปลกตา (Whimsical Clouds) - สไตล์ศิลปะ
+            prompt: "Massive towering cumulonimbus clouds that look like a castle in the sky, sunlight highlighting the edges, fantasy realism style, magical atmosphere, bright colors", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 9. ฝนดาวตก (Meteor Shower) - โรแมนติก
+            prompt: "A spectacular meteor shower over a quiet camping site, tents glowing with warm light, dark sky full of shooting stars, cinematic lighting, adventure theme", 
+            aspectRatio: "9:16" 
+        },
+        { 
+            // 10. สุริยุปราคา (Solar Eclipse) - มินิมอล อาร์ต
+            prompt: "Total solar eclipse, the sun's corona glowing around the black moon, diamond ring effect, dark sky, minimal composition, scientific illustration style, high detailed", 
+            aspectRatio: "9:16" 
+        }
+    ];
+
+    // ==========================================
+    // 🛡️ BACKGROUND GUARDIAN (ยามเฝ้าระวัง)
+    // ==========================================
+    const startModalGuardian = () => {
+        console.log("🛡️ Modal Guardian Started: Watching for popups every 1s...");
+        
+        setInterval(() => {
+            // 1. หา Dialog ทั้งหมด
+            const dialogs = document.querySelectorAll(CONFIG.selectors.modalDialog);
+            
+            dialogs.forEach(dialog => {
+                // 🛑 SAFETY CHECK: สำคัญมาก!
+                // เราต้องเช็คว่า Dialog นี้ไม่ใช่ "เมนูเลือก Aspect Ratio" 
+                // (เพราะเมนูเลือก Ratio ก็เป็น Dialog เหมือนกัน ถ้าเผลอปิด เดี๋ยวทำงานไม่ได้)
+                
+                // วิธีเช็ค: ถ้าใน Dialog มีคำว่า "1:1", "16:9" หรือ "Aspect Ratio" แปลว่าเป็นเมนูดี ห้ามปิด
+                const textContent = dialog.innerText || "";
+                const isRatioMenu = textContent.includes("1:1") || 
+                                    textContent.includes("16:9") || 
+                                    textContent.includes("Aspect Ratio");
+
+                if (!isRatioMenu) {
+                    // 🚨 เจอตัวปัญหาแล้ว! (เป็น Dialog ที่ไม่ใช่เมนู Ratio)
+                    console.warn("🚨 Guardian found intrusive modal! Attempting to kill...");
+                    
+                    // พยายามหาปุ่มปิด
+                    const closeBtn = dialog.querySelector(CONFIG.selectors.modalCloseBtn);
+                    
+                    if (closeBtn) {
+                        closeBtn.click();
+                        console.log("🗑️ Guardian: Clicked close button.");
+                    } else {
+                        // ถ้าหาปุ่มไม่เจอ ลองกดปุ่มอะไรก็ได้ที่เป็นปุ่มตัวแรก (มักจะเป็นปุ่ม Dismiss)
+                        const anyBtn = dialog.querySelector('button');
+                        if (anyBtn) {
+                            anyBtn.click();
+                            console.log("🗑️ Guardian: Clicked generic button.");
+                        }
+                    }
+                }
+            });
+        }, 1000); // เช็คทุกๆ 1000ms (1 วินาที)
+    };
+
+    // ==========================================
+    // 🛠️ UTILITIES & LOGIC (เหมือนเดิม)
+    // ==========================================
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    const randomSleep = async (range) => {
+        const [min, max] = range;
+        await sleep(Math.floor(Math.random() * (max - min + 1) + min));
+    };
+    
+    // React State Hack
+    const setNativeValue = (element, value) => {
+        const valueSetter = Object.getOwnPropertyDescriptor(element, 'value').set;
+        const prototype = Object.getPrototypeOf(element);
+        const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
+        if (valueSetter && valueSetter !== prototypeValueSetter) {
+            prototypeValueSetter.call(element, value);
+        } else {
+            valueSetter.call(element, value);
+        }
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+
+    // Message Envelope Factory
+    const createEnvelope = (type, payload, replyToId = null) => ({
+        id: 'job_' + Math.random().toString(36).substr(2, 9),
+        replyToId, type, timestamp: Date.now(), payload
+    });
+
+    // Server Logic
+    const Server = {
+        jobQueue: [],
+        addJob: function(job) { this.jobQueue.push(job); },
+        dispatchNextJob: async function(clientFn) {
+            if (this.jobQueue.length === 0) return false;
+            await clientFn(createEnvelope('NEW_JOB', this.jobQueue.shift()));
+            return true;
+        },
+        receiveFeedback: () => {}
+    };
+
+    // ==========================================
+    // 🤖 CLIENT FUNCTION (Worker)
+    // ==========================================
+    const Client = async (envelope) => {
+        if (envelope.type !== 'NEW_JOB') return;
+        const { prompt, aspectRatio } = envelope.payload;
+
+        try {
+            console.log(`[CLIENT] 🎬 Start processing: ${prompt.substring(0, 20)}...`);
+
+            // 1. Find Root Panel
+            let root = document.querySelector(`div:has(${CONFIG.selectors.submitBtn})`);
+            if (!root) root = document.querySelector(CONFIG.selectors.rootPanelContainer);
+            if (!root) throw new Error("Root panel not found");
+
+            // 2. Clear & Type Prompt
+            let textarea = root.querySelector('textarea');
+            textarea.focus();
+            setNativeValue(textarea, ""); 
+            await sleep(200);
+
+            for (let char of prompt) {
+                textarea.value += char;
+                textarea.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: char }));
+                await randomSleep(CONFIG.delays.typing); 
+            }
+            setNativeValue(textarea, prompt);
+            await randomSleep(CONFIG.delays.action);
+
+            // 3. Set Aspect Ratio
+            let btn_ratio_menu = root.querySelector(CONFIG.selectors.ratioBtn);
+            if (btn_ratio_menu) {
+                btn_ratio_menu.click();
+                await randomSleep(CONFIG.delays.action);
+
+                let targetBtn = Array.from(document.querySelectorAll(CONFIG.selectors.ratioOptionSpan))
+                    .find(span => span.textContent.trim() === aspectRatio);
+                
+                if (targetBtn) {
+                    targetBtn.parentElement.click();
+                } else {
+                    // ถ้าหาปุ่มไม่เจอ ให้คลิกที่ว่างเพื่อปิดเมนู
+                    document.body.click(); 
+                }
+                await randomSleep(CONFIG.delays.action);
+            }
+
+            // 4. Submit
+            let btn_submit = root.querySelector(CONFIG.selectors.submitBtn);
+            if (btn_submit.disabled) {
+                setNativeValue(textarea, prompt + " ");
+                await sleep(100);
+                setNativeValue(textarea, prompt);
+                await sleep(500);
+            }
+
+            if (!btn_submit.disabled) {
+                btn_submit.click();
+                Server.receiveFeedback(createEnvelope('JOB_SUCCESS', {}, envelope.id));
+            } else {
+                throw new Error("Submit button disabled");
+            }
+
+        } catch (error) {
+            console.error(error);
+            Server.receiveFeedback(createEnvelope('JOB_FAILED', { error: error.message }, envelope.id));
+        }
+    };
+
+    // ==========================================
+    // 🚀 MAIN EXECUTION
+    // ==========================================
+    console.clear();
+    
+    // 1. เริ่มระบบยามเฝ้าระวัง (ทำงานตลอดเวลา ไม่รอ async)
+    startModalGuardian();
+
+    // 2. โหลดงานและรันตามปกติ
+    DUMMY_JOBS.forEach(j => Server.addJob(j));
+    
+    while(Server.jobQueue.length > 0) {
+        await Server.dispatchNextJob(Client);
+        
+        // รอเวลาระหว่างงาน
+        const waitTime = Math.floor(Math.random() * (CONFIG.delays.jobInterval[1] - CONFIG.delays.jobInterval[0] + 1) + CONFIG.delays.jobInterval[0]);
+        console.log(`[SYSTEM] ⏳ Waiting ${waitTime/1000}s...`);
+        await sleep(waitTime);
+    }
+    console.log("🎉 Done!");
+
+})();
+
+
+/*
+//////////////////////////////////////////////////////////////////////////////////////////
+//เพิ่มรูปอ้างอิง
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Whisk automate
+
+psudocode
+const left_sidebar_root =  getElement (div[style contain "opacity: 1"]);
+const file_uploads = left_sidebar_root .getAllElement(input[type="file"]);
+consol.log(file_uploads .length);
+
+//start sample inject
+file_uploads .forEach(item=>{
+      //inject it with sample your image
+});
+
+*/
+(async () => {
+    // 1. CONFIG: Embedded Base64 Image (1x1 Red Pixel) - No download needed
+    const BASE64_IMG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+
+    // 2. HELPER: Find sidebar by opacity
+    const findVisibleSidebar = () => {
+        const divs = Array.from(document.querySelectorAll('div'));
+        return divs.find(el => {
+            const style = window.getComputedStyle(el);
+            return style.opacity === '1' || el.getAttribute('style')?.includes('opacity: 1');
+        });
+    };
+
+    const left_sidebar_root = findVisibleSidebar();
+
+    if (!left_sidebar_root) {
+        console.error("❌ Target sidebar (opacity: 1) not found.");
+        return;
+    }
+
+    // 3. GET INPUTS
+    const file_uploads = left_sidebar_root.querySelectorAll('input[type="file"]');
+    console.log(`✅ Found ${file_uploads.length} file inputs.`);
+
+    if (file_uploads.length === 0) return;
+
+    try {
+        // 4. PREPARE FILE (From Base64 Data URI)
+        const response = await fetch(BASE64_IMG);
+        const blob = await response.blob();
+        const file = new File([blob], "sample.png", { type: "image/png" });
+
+        // 5. INJECT
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+
+        file_uploads.forEach(input => {
+            input.files = dataTransfer.files;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            console.log("🚀 Image injected into input:", input);
+        });
+
+    } catch (err) {
+        console.error("❌ Error during injection:", err);
+    }
+})();
+
+/*
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ลบรูปอ้างอิงออก
+psudocode
+const left_sidebar_root =  getElement (div[style contain "opacity: 1"]);
+left_sidebar_root.getAllElement(button[aria-label="Delete image"] that in div[role="presentation"]  ).forEach(item=>{item.click()});
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+*/
+CODE::
+(() => {
+    // 1. HELPER: Find sidebar by opacity
+    const findVisibleSidebar = () => {
+        const divs = Array.from(document.querySelectorAll('div'));
+        return divs.find(el => {
+            const style = window.getComputedStyle(el);
+            return style.opacity === '1' || el.getAttribute('style')?.includes('opacity: 1');
+        });
+    };
+
+    const left_sidebar_root = findVisibleSidebar();
+
+    if (!left_sidebar_root) {
+        console.error("❌ Target sidebar (opacity: 1) not found.");
+        return;
+    }
+
+    // 2. GET BUTTONS nested inside div[role="presentation"]
+    // CSS Selector: div[role="presentation"] button[aria-label="Delete image"]
+    const delete_buttons = left_sidebar_root.querySelectorAll('div[role="presentation"] button[aria-label="Delete image"]');
+    
+    console.log(`✅ Found ${delete_buttons.length} delete buttons in presentation containers.`);
+
+    // 3. EXECUTE CLICK
+    delete_buttons.forEach(btn => {
+        btn.click();
+        console.log("🗑️ Clicked delete button", btn);
+    });
+})();

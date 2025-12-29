@@ -1,0 +1,53 @@
+{
+    "manifest_version": 3,
+    "name": "YouTube Auto Uploader v1.0",
+    "version": "1.0.0",
+    "description": "MVVM + Scene/Step - Automated YouTube video uploader",
+    "permissions": [
+        "activeTab",
+        "storage",
+        "clipboardWrite"
+    ],
+    "host_permissions": [
+        "http://127.0.0.1:8000/*",
+        "https://studio.youtube.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://studio.youtube.com/*"
+            ],
+            "js": [
+                "lib/vue.global.prod.js",
+                "src/Namespace.js",
+                "src/stubs/Stub1_Api.js",
+                "src/models/StateManager.js",
+                "src/models/SceneManager.js",
+                "src/utils/HumanLike.js",
+                "src/utils/PageHandler.js",
+                "src/viewmodels/AppViewModel.js",
+                "src/views/App.js",
+                "content.js"
+            ],
+            "css": [
+                "style.css"
+            ],
+            "run_at": "document_idle",
+            "all_frames": false
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "lib/*",
+                "src/*"
+            ],
+            "matches": [
+                "*://studio.youtube.com/*"
+            ]
+        }
+    ]
+}

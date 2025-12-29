@@ -1,0 +1,30 @@
+/* Facebook Reels Uploader - Custom CSS */
+:root {
+    --primary: #1877f2; /* Facebook Blue */
+    --text: #ffffff;
+    --bg-dark: rgba(0, 0, 0, 0.8);
+}
+
+#fbu-test-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: var(--text);
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: bold;
+    z-index: 999999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+#fbu-test-button:hover {
+    transform: scale(1.05);
+}
+
+#fbu-test-button:active {
+    transform: scale(0.95);
+}

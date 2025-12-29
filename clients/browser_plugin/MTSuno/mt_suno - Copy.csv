@@ -1,0 +1,101 @@
+id,fashion,mood,lyrics,style,descr
+1,Streetwear,"เท่, ดิบ, เบสหนัก",,"Phonk, Drift, Cowbell, Distorted Bass, High Energy, Aggressive, 130 BPM","โชว์ชุดสตรีท, เดินแบบเร็ว"
+2,Minimal Style,"เรียบง่าย, ทันสมัย",,"Lo-fi Hip Hop, Chill, Jazz Hop, Dusty Drums, Relaxed, Aesthetic","เสื้อผ้าสีพื้น, คุมโทน"
+3,Luxury Brand,"หรูหรา, แพง",,"Deep House, Runway, Fashion Week, Elegant, Vocal Chops, Bass, 124 BPM","กระเป๋าแบรนด์เนม, นาฬิกา"
+4,Summer Collection,"สดใส, ทะเล",,"Tropical House, Marimba, Pan Flute, Upbeat, Summer Vibes, Sunny","ชุดว่ายน้ำ, ชุดไปเที่ยว"
+5,Vintage/Retro,ย้อนยุค 80s,,"Synthwave, Retrowave, Neon, 80s Pop, Analog Synths, Nostalgic","เสื้อผ้ามือสอง, แนววินเทจ"
+6,Sportswear,"กระฉับกระเฉง, วิ่ง",,"Drum and Bass, Liquid DnB, Fast, Energetic, Running, Workout","รองเท้าวิ่ง, ชุดออกกำลังกาย"
+7,Kids Fashion,"น่ารัก, สนุกสนาน",,"Acoustic Pop, Whistling, Ukulele, Clap, Happy, Playful, Major Key",เสื้อผ้าเด็ก
+8,Working Woman,"มั่นใจ, โฉบเฉี่ยว",,"Nu-Disco, Funky, Confident, Strut, Bass Groove, City Pop","ชุดทำงาน, สูทผู้หญิง"
+9,Lingerie/Sexy,"เซ็กซี่, เย้ายวน",,"R&B, Slow Jam, Smooth Jazz, Saxophone, Romantic, Night vibe","ชุดชั้นใน, ชุดนอน"
+10,Jeans/Denim,"ร็อค, ลุยๆ",,"Indie Rock, Garage Rock, Electric Guitar, Raw, Driving, Cool",กางเกงยีนส์
+11,Smartphone Launch,"ล้ำสมัย, ตื่นเต้น",,"Future Bass, Clean, Tech, Glitch, Synths, Uplifting, Commercial",เปิดตัวมือถือรุ่นใหม่
+12,Gaming Gear,"ดุดัน, อีสปอร์ต",,"Dubstep, Heavy Bass, Electronic, Cyberpunk, Intense, Action",เมาส์/คีย์บอร์ดเกมมิ่ง
+13,Smart Home,"ผ่อนคลาย, อัจฉริยะ",,"Ambient, Intelligent, Soft Electronic, Plucks, Minimal, Clean","หลอดไฟ, หุ่นยนต์ดูดฝุ่น"
+14,Camera/Drone,"ยิ่งใหญ่, มุมกว้าง",,"Cinematic, Orchestral, Inspiring, Strings, Epic, Building up","โดรน, กล้องถ่ายภาพ"
+15,Gadget Review,"สนุก, ขี้เล่น",,"Electro Swing, Bouncy, Catchy, Vintage sample, Modern beat",รีวิวแกดเจ็ตแปลกๆ
+16,App Tutorial,"มีสมาธิ, ชัดเจน",,"Corporate, Uplifting, Muted Guitar, Light, Positive, Background",สอนใช้แอปฯ
+17,Cyber Security,"ลึกลับ, ดิจิทัล",,"Dark Synth, Matrix style, Techno, Pulsing, Tension, Code",โปรแกรมสแกนไวรัส
+18,Audio/Speaker,"เบสลึก, ทดสอบเสียง",,"Trap, Heavy 808, Sub Bass, Crisp Hi-hats, Audiophile test","หูฟัง, ลำโพงบลูทูธ"
+19,DIY/Maker,"สร้างสรรค์, ทำเอง",,"Acoustic Folk, Stomps and Claps, Guitar, Progress, Building",คลิปประกอบคอมฯ
+20,Sale Tech,"เร็ว, เร่งด่วน",,"Eurobeat, Fast, Racing, High BPM, Alert, Excitement",นาทีทองสินค้าไอที
+21,Coffee Shop,"อบอุ่น, ยามเช้า",,"Bossa Nova, Acoustic Guitar, Soft Piano, Cafe Vibe, Relaxing, Morning","ร้านกาแฟ, ชงกาแฟ"
+22,Street Food,"สนุก, วุ่นวาย",,"Ska, Brass Section, Upbeat, Funky, Lively, Cooking, Fast","สตรีทฟู้ด, อาหารตลาดนัด"
+23,Fine Dining,"หรูหรา, ดินเนอร์",,"Classical, Piano Sonata, Elegant, Sophisticated, Slow, Restaurant",อาหารภัตตาคาร
+24,Spicy Food,"ร้อนแรง, จัดจ้าน",,"Latin Pop, Reggaeton, Salsa, Fiery, Dance, Trumpet","ส้มตำ, ยำ, อาหารรสจัด"
+25,Bakery/Sweets,"หวาน, น่ารัก",,"Kawaii Future Bass, High pitched, Cute, Bubbles, Anime style","เค้ก, ขนมหวาน"
+26,Cooking ASMR,"เงียบ, เน้นเสียงทำ",,"Minimal Ambient, Very Soft, Texture, Calm, Focus",คลิปทำอาหารเน้นเสียงมีด
+27,Healthy/Salad,"สดชื่น, ธรรมชาติ",,"Indie Folk, Acoustic, Light Percussion, Organic, Fresh, Green","อาหารคลีน, สลัด"
+28,Fast Food,"สนุก, ปาร์ตี้",,"Pop Punk, Energetic, Teenage vibe, Fast, Hungry, Group","เบอร์เกอร์, พิซซ่า"
+29,Thai Traditional,ไทยร่วมสมัย,,"Thai Fusion, Ranad (Xylophone), Modern Beat, Exotic, Cultural","ขนมไทย, อาหารไทย"
+30,Refreshing Drink,"สดชื่น, ซ่า",,"EDM, Progressive House, Summer, Splash, Cool, Energy","น้ำอัดลม, โซดา"
+31,Skincare Routine,"สะอาด, บริสุทธิ์",,"Ambient, Water sounds, Harp, Ethereal, Soft, Glow, Spa","ครีมทาหน้า, เซรั่ม"
+32,Makeup Tutorial,"มั่นใจ, จังหวะดี",,"Vogue, Deep House, Catwalk, Stylish, Beat sync, Transformation",แต่งหน้า
+33,Perfume,"เย้ายวน, ลึกลับ",,"Trip Hop, Downtempo, Sultry, Velvet, Cinematic, Mysterious",น้ำหอม
+34,Supplement,"สดใส, แข็งแรง",,"Pop Rock, Bright, Uplifting, Guitar, Positive, Morning energy","วิตามิน, อาหารเสริม"
+35,Hair Salon,"ทันสมัย, ชิค",,"Lounge, Chill House, Trendy, Smooth, Fashionable","ทำสีผม, ตัดผม"
+36,Spa/Massage,ผ่อนคลายขั้นสุด,,"Zen, Flute, Nature sounds, Meditation, Slow, Healing","สปา, นวดแผนไทย"
+37,Lipstick,"ฉูดฉาด, เปรี้ยว",,"Electro Pop, Sassy, Bold, Synth Bass, Catchy",ลิปสติกสีสด
+38,Organic Product,ธรรมชาติ,,"Acoustic Guitar, Earthy, Folk, Warm, Gentle, Wood",สบู่สมุนไพร
+39,Men's Grooming,"เท่, แมนๆ",,"Blues Rock, Gritty, Stomp, Electric Guitar, Cool, Barbershop","โฟมล้างหน้าชาย, แว็กซ์"
+40,Before/After,"ตื่นเต้น, เปลี่ยนแปลง",,"Orchestral Pop, Build up, Reveal, Tada, Magic, Success",คลิปโชว์ผลลัพธ์
+41,Minimal Decor,"เรียบ, ขาว, คลีน",,"Lo-fi, Piano, Soft Beat, Cozy, Homey, Relaxing",แต่งห้องมินิมอล
+42,Cleaning,"สนุก, ขยัน",,"Motown, Soul, Upbeat, Brass, Happy, Working, Cleaning","น้ำยาถูพื้น, ไม้กวาด"
+43,Garden/Plant,"สดชื่น, เขียว",,"Indie Folk, Whistling, Acoustic, Sunny, Birds, Nature","ต้นไม้, อุปกรณ์สวน"
+44,Furniture,"มั่นคง, มีดีไซน์",,"Jazz Hop, Sophisticated, Smooth, Classy, Architecture","โซฟา, โต๊ะทำงาน"
+45,Bedroom,"นุ่มนวล, ฝันดี",,"Lullaby style, Music Box, Soft Strings, Dreamy, Night","ที่นอน, หมอน"
+46,Kitchenware,"กุ๊กกิ๊ก, แม่บ้าน",,"Pizzicato Strings, Playful, Light, Comedy, Cooking show","กระทะ, หม้อ"
+47,Pet Product,"น่ารัก, ตลก",,"Cartoon, Polka, Tuba, Silly, Funny, Fast, Chaotic","อาหารแมว, ของเล่นหมา"
+48,Home Office,"มีสมาธิ, ทำงาน",,"Chillhop, Study beats, Focus, Flow, Productivity","โต๊ะคอม, เก้าอี้"
+49,Renovation,สร้างแรงบันดาลใจ,,"Pop Rock, Anthem, Building, Progress, Energetic, Success",คลิปรีโนเวทบ้าน
+50,Security Cam,"ระทึก, ปลอดภัย",,"Minimal Techno, Pulse, Watchful, Serious, Tech",กล้องวงจรปิด
+51,Beach Vlog,"ทะเล, ชิล",,"Reggae, Ukulele, Chill, Island vibe, Relaxed, Sunny",เที่ยวทะเล
+52,Adventure/Hiking,"ผจญภัย, ยิ่งใหญ่",,"Cinematic Folk, Stomps, Mumford style, Wide, Epic, Mountains","เดินป่า, แคมป์ปิ้ง"
+53,City Trip,"ทันสมัย, เมือง",,"City Pop, Funk, Japanese style, Neon, Night life, Busy","เที่ยวกรุงเทพ, ญี่ปุ่น"
+54,Road Trip,"ขับรถ, อิสระ",,"Classic Rock, Highway, Driving, Guitar solo, Freedom, USA",ขับรถเที่ยว
+55,Luxury Hotel,"หรู, พรีเมียม",,"Lounge Jazz, Piano, Cocktail, Classy, Expensive, Lobby",รีวิวโรงแรม 5 ดาว
+56,Cultural,"พื้นเมือง, ขลัง",,"World Music, Ethnic instruments, Percussion, Travel, Discovery","เที่ยววัด, โบราณสถาน"
+57,Drone Shot,"ลอย, สวยงาม",,"Ambient, Post-Rock, Reverb guitar, Flying, Beautiful, Sky",ภาพมุมสูง
+58,Family Trip,"อบอุ่น, ครอบครัว",,"Acoustic Pop, Happy, Claps, Together, Wholesome, Fun",เที่ยวกับลูก
+59,Night Market,"สนุก, คนเยอะ",,"Electro Swing, Busy, Beat, Food, Walking, Lights",ตลาดกลางคืน
+60,Slow Life,"ช้าๆ, ซึมซับ",,"Piano Solo, Minimal, Emotional, Touching, Slow motion",คลิปสโลว์ไลฟ์
+61,Flash Sale,"เร่งด่วน, นับถอยหลัง",,"Techno, Siren, Fast, Alarm, High BPM, Urgency, Now",ลดราคาจำกัดเวลา
+62,Grand Opening,"ยิ่งใหญ่, เปิดตัว",,"Fanfare, Brass, Orchestral, Celebration, Big, Announcement",เปิดร้านใหม่
+63,Seasonal Sale,"เทศกาล, สนุก",,"Big Band, Swing, Happy, Shopping, Crowd, Holiday","โปรปีใหม่, สงกรานต์"
+64,Giveaway,"ตื่นเต้น, ลุ้น",,"Game Show, Fun, Bouncy, Lottery, Winner, Prize",แจกรางวัล
+65,Soft Launch,"เบาๆ, เรียกน้ำย่อย",,"Synth Pop, Light, Teaser, Coming soon, Mystery, Cool",สินค้าตัวอย่าง
+66,Exclusive,"พิเศษ, จำกัด",,"Deep House, VIP, Club, Dark, Premium, Select",สมาชิก VIP
+67,Clearance,"โกลาหล, หมดแล้วหมดเลย",,"Punk Rock, Fast, Chaotic, Garage, Sale, Crazy",ล้างสต๊อก
+68,Livestream Intro,"ทักทาย, เป็นกันเอง",,"Lo-fi, Intro music, Welcome, Chill, Chatting, Loop",เพลงเปิดไลฟ์สด
+69,Call to Action,"ย้ำ, ให้กดซื้อ",,"Trap, Punchy, Effect, Click, Buy now, Short",ช่วงท้ายคลิป
+70,Testimonial,"น่าเชื่อถือ, จริงจัง",,"Corporate, Piano, Warm pads, Trust, Review, Interview",ลูกค้ารีวิว
+71,Education/Tutor,"ฉลาด, วิชาการ",,"Classical, Mozart effect, Strings, Focus, Smart, Learning",คอร์สเรียนออนไลน์
+72,Financial/Crypto,"ทันสมัย, เงินทอง",,"Synthwave, Digital, Upward, Growth, Money, Tech","กราฟหุ้น, คริปโต"
+73,Charity,"ซึ้ง, กินใจ",,"Cinematic Piano, Emotional, Strings, Hope, Helping, Sad",รับบริจาค
+74,Automotive,"แรง, เครื่องยนต์",,"Industrial Rock, Heavy, Gear, Machine, Power, Speed","น้ำมันเครื่อง, อู่รถ"
+75,Real Estate,"กว้างขวาง, อนาคต",,"Corporate, Inspiring, Vision, Modern, Bright, Success","ขายบ้าน, คอนโด"
+76,Wedding,"รัก, โรแมนติก",,"Acoustic Wedding, Violin, Piano, Love, Sweet, Forever",ธีมงานแต่ง
+77,Party/Event,"เต้น, สุดเหวี่ยง",,"EDM, Big Room, Festival, Drop, Hands up, Party",งานอีเวนต์
+78,Unboxing,"ตื่นเต้น, แกะกล่อง",,"Future Bass, Pop, Glitter sound, Surprise, Wow, Fun",แกะกล่องสินค้า
+79,Interview,"เบา, ไม่กวนเสียง",,"Minimal Jazz, Double Bass, Brushes, Background, Talk",คลิปสัมภาษณ์
+80,Horror/Mystery,"น่ากลัว, ลุ้น",,"Dark Ambient, Drone, Creepy, Suspense, Tension, Scary",สินค้าธีมผี/ฮาโลวีน
+81,Comedy/Skit,"ตลก, ขำขัน",,"Polka, Tuba, Pizzicato, Sneaky, Funny, Prank",คลิปตลก
+82,Motivational,"ปลุกใจ, สู้ชีวิต",,"Epic Rock, Anthem, Drums, Power, Rising, Hero","คำคม, แรงบันดาลใจ"
+83,Nostalgia,"คิดถึง, วันวาน",,"90s Pop, Acoustic, Sentimental, Memory, Old school",สินค้าย้อนยุค
+84,Futuristic,โลกอนาคต,,"Sci-fi, Space, Synthesizer, Floating, Galaxy, Discovery",นวัตกรรมใหม่
+85,Cute Animals,"แมว, หมา",,"8-bit, Chiptune, Cute, Game, Meow, Bark",คลิปสัตว์โลก
+86,Book/Reading,"สงบ, ปัญญา",,"Classical Guitar, Library vibe, Quiet, Solo, Thoughtful",รีวิวหนังสือ
+87,Art/Design,"ศิลปะ, นามธรรม",,"Abstract, Experimental, Glitch, Texture, Color, Creative",อุปกรณ์ศิลปะ
+88,Coffee Morning,เริ่มต้นวันใหม่,,"Acoustic, Birds, Sun, Rise, Gentle, Optimistic",สวัสดีตอนเช้า
+89,Night Drive,"เหงา, ขับรถกลางคืน",,"Synthwave, Nightcall style, Neon, Lonely, Cool",ขับรถกลางคืน
+90,Rain/Mood,"ฝนตก, เหงา",,"Jazz, Rain sounds, Saxophone, Moody, Coffee, Chill",สินค้าหน้าฝน
+91,8-Bit Game,เกมย้อนยุค,,"8-bit, Nintendo style, Arcade, Jump, Coin sound, Fun","เกมเก่า, ของเล่น"
+92,Corporate Happy,"องค์กร, ทีมงาน",,"Whistling, Ukulele, Claps, Corporate, Teamwork, Success",แนะนำบริษัท
+93,Dramatic,"ดราม่า, ละคร",,"Orchestral, Minor key, Tension, Conflict, Violin, Sad",ละครสั้นโฆษณา
+94,Western/Cowboy,"คาวบอย, ลุย",,"Country, Banjo, Western, Horse, Acoustic, Yeehaw","แคมป์ปิ้ง, หนัง"
+95,Space/Galaxy,"อวกาศ, ไร้แรงโน้มถ่วง",,"Ambient, Reverb, Wide, Stars, Deep, Float",กล้องดูดาว
+96,Underwater,"ใต้น้ำ, ดำน้ำ",,"Muted, Filtered, Bubbles, Deep House, Aqua, Floating",อุปกรณ์ดำน้ำ
+97,Magic/Fantasy,เวทมนตร์,,"Celesta, Chimes, Sparkle, Fantasy, Disney style, Magic","สินค้าเด็ก, นิทาน"
+98,Robot/AI,หุ่นยนต์,,"Vocoder, Robot voice, Beep, Tech, Future, Machine","AI, หุ่นยนต์"
+99,Luxury Car,"หรู, นุ่ม",,"Smooth Jazz, Night, City, Leather, Class, Expensive",เคลือบแก้วรถยนต์
+100,The End,"จบ, เครดิต",,"Pop Rock, Outro, Conclusion, Goodbye, Thanks, Fade out",ท้ายคลิป

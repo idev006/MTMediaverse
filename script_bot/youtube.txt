@@ -1,0 +1,277 @@
+
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGE 1
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const btn_create =  get(  ytcp-button-shape[innerText ='Create'] ) ;
+btn_create.click();
+//wait until show context menu
+const context_menu  = getElement( tp-yt-paper-dialog[id="dialog"] );
+const menu_root  =context_menu.getAllElement(tp-yt-paper-listbox[id="paper-list"] );
+
+//search tp-yt-paper-item that has text sample "Upload videos" inside 
+menu_root.getElement( tp-yt-paper-item[text="Upload videos"] ).click();
+//page will goto Upload video
+
+*/
+
+(async () => {
+    // ฟังก์ชันสำหรับหน่วงเวลา (Wait helper)
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    // 1. ค้นหาและคลิกปุ่ม "Create"
+    const createBtn = Array.from(document.querySelectorAll('ytcp-button-shape'))
+        .find(el => el.innerText.trim() === 'Create');
+
+    if (!createBtn) {
+        console.error("Error: ไม่พบปุ่ม 'Create'");
+        return;
+    }
+    
+    createBtn.click();
+    
+    // 2. รอ 500ms (ครึ่งวินาที) ให้เมนูเด้งขึ้นมา
+    // ถ้าเน็ตช้าหรือคอมช้า อาจเพิ่มเป็น 1000ms
+    await delay(500); 
+
+    // 3. ค้นหาใน listbox และคลิก "Upload videos"
+    // ดึง tp-yt-paper-item ทั้งหมดมาเช็คข้อความข้างใน
+    const menuItems = Array.from(document.querySelectorAll('tp-yt-paper-item'));
+    const uploadBtn = menuItems.find(el => el.innerText.includes('Upload videos'));
+
+    if (uploadBtn) {
+        uploadBtn.click();
+        console.log("Success: กำลังไปหน้า Upload videos...");
+    } else {
+        console.error("Error: ไม่พบเมนู 'Upload videos' (อาจจะต้องเพิ่มเวลา delay)");
+    }
+})();
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGE2 Upload clip
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(async () => {
+    // 1. HELPER: Convert Base64 string to a Blob/File object
+    const base64ToFile = (base64String, filename, mimeType) => {
+        // Ensure string is clean before decoding
+        const cleanString = base64String.replace(/[\s\r\n]+/g, ''); 
+        
+        try {
+            const byteCharacters = atob(cleanString);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: mimeType });
+            return new File([blob], filename, { type: mimeType });
+        } catch (e) {
+            console.error("Base64 decoding failed. Check the string format.");
+            throw e;
+        }
+    };
+
+    // 2. DATA: A clean, valid Base64 string for a minimal MP4 file
+    // This is a tiny valid MP4 container structure.
+    const validMp4Base64 = "AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMQAAAAhmcmVlAAACqm1kYXQ=";
+
+    // 3. HELPER: Wait for the upload modal
+    const waitForElement = (selector) => {
+        return new Promise((resolve) => {
+            const el = document.querySelector(selector);
+            if (el) return resolve(el);
+            const observer = new MutationObserver(() => {
+                const el = document.querySelector(selector);
+                if (el) { resolve(el); observer.disconnect(); }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    };
+
+    console.log("Waiting for upload dialog...");
+    
+    try {
+        // 4. LOGIC: Find modal and inject file
+        // We look for the main dialog class used by YouTube Studio
+        const modal_upload = await waitForElement('.ytcp-uploads-dialog'); 
+        console.log("Dialog found.");
+
+        // YouTube's file input is often nested deep or has specific attributes
+        const file_upload = modal_upload.querySelector('input[type="file"]');
+        
+        if (file_upload) {
+            console.log("File input found. Generating file...");
+
+            // Convert Base64 to File
+            const videoFile = base64ToFile(validMp4Base64, "sample_clip.mp4", "video/mp4");
+
+            // Use DataTransfer to simulate drag-and-drop file selection
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(videoFile);
+            file_upload.files = dataTransfer.files;
+
+            // Dispatch 'change' event to trigger YouTube's upload handler
+            // Note: YouTube sometimes listens to 'input' as well, so we dispatch both to be safe
+            file_upload.dispatchEvent(new Event('change', { bubbles: true }));
+            file_upload.dispatchEvent(new Event('input', { bubbles: true }));
+
+            console.log("Success: File injected. YouTube should detect it now.");
+        } else {
+            console.error("Error: input[type='file'] not found in the dialog.");
+        }
+    } catch (e) {
+        console.error("Error during upload simulation:", e);
+    }
+})();
+
+
+/*
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGE 3
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//add clip detail 
+const modal = get div[has class dialog-content AND  ytcp-uploads-dialog];
+const txt_title = modal.getElement div[aria-label="Add a title that describes your video (type @ to mention a channel)"];
+txt_title.click();
+txt_title.focus();
+txt_title.sendKey("CTRL+A");
+txt_title.sendKey("DELETE");
+txt_title.typeAsHuman('test i am human.');
+
+//description
+const txt_description = modal.getElement div[aria-label="Tell viewers about your video (type @ to mention a channel)"];
+txt_description.click();
+txt_description.focus();
+txt_description.sendKey("CTRL+A");
+txt_description.sendKey("DELETE");
+txt_description.typeAsHuman('this is description.');
+
+//playlist
+const icon_playlist=modal.getElement( path[d startWith"M18.707 8.793a1 1 0 00"] );
+icon_playlist.click(); 
+
+//now show context menu
+const mnu_playlist = modal.getElement( ytcp-checkbox-group[id="playlists-list"] );
+//search playlist by text 
+let target_playlist = "191 report";
+const playlist_childs = mnu_playlist.getElement( div[id="checkbox-group"] ).getAllElement(  ytcp-ve[class contain "ytcp-checkbox-group"] );
+playlist_childs.forEach(item=>{
+   const li_row = item.getElement( li[class contain "row"] );
+   const node_label = li_row.getElement( span[class contain"label"] );
+   const label = node_label.getText();
+   if(label = target_playlist){
+	//click
+	const chk = node_label.getElement( div[id="checkbox" AND role="checkbox"]  );
+	chk.click();
+   } 
+});
+const btn_done = modal.getElement( ytcp-button-shape[that has text="Done"] );
+
+//made for kids  
+const made_for_kid_root = modal.getElement(div[class contain "made-for-kids-rating-container" ]);
+const target_made_for_kid_node.getElement( tp-yt-paper-radio-button[text contain "Yes, it's made for kids"] );
+target_made_for_kid_node.getAllElement(  tp-yt-paper-ripple[class contain "circle"]  ).click();
+
+
+const btn_showmore = modal.getElement( button[that has text="Show more"] );
+
+//tags
+const modal = get div[has class dialog-content AND  ytcp-uploads-dialog];
+const part_tags_root = modal.getElement(ytcp-form-input-container[id="tags-container"]);
+const txt_tags = part_tags_root.getElement(input[that has placeholder="Add tag"] );
+//clear old
+part_tags_root.getElement( div[class contain "chip-and-bar"] ).getAllElement(ytcp-chip[class="chip style-scope ytcp-chip-bar"]).getAllElement(ytcp-icon-button[id="delete-icon"]).forEach(item=>item.click());
+
+//input new
+txt_tags.typeAsHuman( "tag1,tag2,tag3" );
+
+
+modal.getElement(span[ class contain "dropdown-trigger-text" ]).click();
+const vdocat_nodes =  modal.getElement( tp-yt-paper-listbox[id="paper-list"] );
+vdocat_nodes.getElement(yt-formatted-string[ that has text="Music" ]).click();
+*/
+
+::CODE
+(async () => {
+    // ฟังก์ชันหน่วงเวลา
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    // 1. หา Container
+    const part_tags_root = document.querySelector('#tags-container');
+    if (!part_tags_root) {
+        console.error("Error: ไม่พบ Tags Container (ตรวจสอบว่ากด Show more หรือยัง)");
+        return;
+    }
+
+    // --- ส่วนที่ 1: ลบของเก่า (Clear Old) แบบ Loop จนกว่าจะหมด ---
+    console.log("Start clearing old tags...");
+    while (true) {
+        // หาปุ่มลบตัวแรกที่เจอ
+        const deleteBtn = part_tags_root.querySelector('ytcp-chip #delete-button, ytcp-chip #delete-icon');
+        
+        // ถ้าไม่มีปุ่มลบเหลือแล้ว ให้หยุด
+        if (!deleteBtn) break;
+
+        deleteBtn.click();
+        await delay(20); // รอ 20ms ให้ UI อัปเดตก่อนลบตัวถัดไป
+    }
+    console.log("All old tags cleared.");
+
+
+    // --- ส่วนที่ 2: ใส่ของใหม่ (Input New) ---
+    const txt_tags = part_tags_root.querySelector('input[placeholder="Add tag"]');
+    
+    if (txt_tags) {
+        const inputData = "tag1,tag2,tag3"; // ใส่ Tags ของคุณตรงนี้
+        const tagsArray = inputData.split(',');
+
+        console.log(`Adding ${tagsArray.length} new tags...`);
+
+        for (const tag of tagsArray) {
+            const cleanTag = tag.trim();
+            if (!cleanTag) continue;
+
+            txt_tags.focus();
+
+            // 1. จำลองการพิมพ์ (Set Value + Trigger Input Event)
+            txt_tags.value = cleanTag;
+            txt_tags.dispatchEvent(new Event('input', { bubbles: true }));
+            await delay(50); 
+
+            // 2. จำลองการกด Enter เพื่อสร้าง Chip
+            txt_tags.dispatchEvent(new KeyboardEvent('keydown', { 
+                key: 'Enter', 
+                code: 'Enter', 
+                keyCode: 13, 
+                bubbles: true 
+            }));
+            
+            // รอ Animation การสร้าง Chip เล็กน้อย
+            await delay(100); 
+        }
+        console.log("Success: New tags added.");
+    } else {
+        console.error("Error: ไม่พบช่องพิมพ์ Tags");
+    }
+
+})();
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//PAGE4
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const button_roots = get <div id="buttons";
+const btn_create = button_roots. get button[aria-label="Create"];
+btn_create.click();
+
+//show context menu
+const menu_root  = get <div id="items" ;
+const mnu_post  =menu_root .get item  <yt-formatted-string  that has text "Upload video";
+mnu_post.click();
+
+
+//now  redirect to page2 this step we will upload video
+const modal_upload = get div[class contail dialog-content AND ytcp-uploads-dialog];
+wait until  modal_upload avilable
+const file_upload = modal_upload.get (<input type="file" name="Filedata");
+//pls you donload sample clip from internet then inject to file_upload

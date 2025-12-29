@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "MTSuno Automation",
+  "version": "1.0",
+  "description": "Automate Song Generation and Download on Suno",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://suno.com/*",
+    "*://www.suno.ai/*",
+    "http://localhost:8000/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://suno.com/*",
+        "*://www.suno.ai/*"
+      ],
+      "js": [
+        "src/StateManager.js",
+        "src/ApiClient.js",
+        "src/AutomationService.js",
+        "src/styles.js",
+        "src/App.js",
+        "content.js"
+      ],
+      "css": [],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/*"
+      ],
+      "matches": [
+        "*://suno.com/*",
+        "*://www.suno.ai/*"
+      ]
+    }
+  ]
+}
