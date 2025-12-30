@@ -284,23 +284,33 @@ class OrderBuilder:
             items: List[OrderItemPayload] = []
             
             for clip in clips:
-                # Get product config
+                # Get product config via ProdConfig
                 product = session.query(Product).filter(Product.id == clip.product_id).first()
                 prod_config = self._product_vm.get_prod_config(product.sku) if product else None
-                platform_config = self._product_vm.get_platform_config(product.sku, platform) if product else {}
+                platform_cfg = self._product_vm.get_platform_config(product.sku, platform) if product else None
                 
-                # Get prod_detail and platform urls
-                prod_detail = prod_config.get('prod_detail', {}) if prod_config else {}
-                platforms = prod_config.get('platforms', {}) if prod_config else {}
-                shopee_config = platforms.get('shopee', {})
+                # Extract data from ProdConfig
+                if prod_config:
+                    tags = prod_config.tags
+                    description = prod_config.long_description
+                    title = prod_config.prod_name
+                else:
+                    tags = []
+                    description = ''
+                    title = clip.filename
                 
-                # Build payload with shuffling
-                tags = prod_detail.get('prod_tags', [])
+                # Get affiliate from target platform (not always shopee)
+                if platform_cfg:
+                    aff_urls_list = [{'url': u.url, 'label': u.label, 'is_primary': u.is_primary} 
+                                     for u in platform_cfg.aff_urls]
+                    platform_props = platform_cfg.props
+                else:
+                    aff_urls_list = []
+                    platform_props = {}
+                
+                # Build payload with shuffling (anti-detection)
                 shuffled_tags = self.select_random_tags_subset(tags)
-                
-                affiliate = self.pick_random_affiliate(shopee_config.get('urls_list', []))
-                
-                description = prod_detail.get('prod_long_descr', '')
+                affiliate = self.pick_random_affiliate(aff_urls_list)
                 varied_description = self.vary_description(description)
                 
                 # Create OrderItem in DB
@@ -309,12 +319,12 @@ class OrderBuilder:
                     media_id=clip.id,
                     status='new',
                     posting_config={
-                        'title': prod_detail.get('prod_name', clip.filename),
+                        'title': title,
                         'description': varied_description,
                         'tags': shuffled_tags,
                         'affiliate_url': affiliate['url'],
                         'affiliate_label': affiliate['label'],
-                        'platform_config': platform_config or {}
+                        'platform_config': platform_props
                     }
                 )
                 session.add(order_item)
@@ -325,12 +335,12 @@ class OrderBuilder:
                     job_id=order_item.id,
                     media_id=clip.id,
                     media_hash=clip.file_hash,
-                    title=prod_detail.get('prod_name', clip.filename),
+                    title=title,
                     description=varied_description,
                     tags=shuffled_tags,
                     affiliate_url=affiliate['url'],
                     affiliate_label=affiliate['label'],
-                    platform_config=platform_config or {}
+                    platform_config=platform_props
                 )
                 items.append(payload)
             

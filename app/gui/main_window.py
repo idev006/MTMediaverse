@@ -11,7 +11,10 @@ from PySide6.QtWidgets import (
     QTabWidget, QLabel
 )
 
-from app.gui.components import DashboardPanel, SettingsPanel
+from app.gui.components import (
+    DashboardPanel, SettingsPanel, 
+    ProductsPanel, OrdersPanel, ClientsPanel
+)
 from app.gui.theme_manager import get_theme_manager
 
 
@@ -41,10 +44,17 @@ class MainWindow(QMainWindow):
         self.dashboard = DashboardPanel()
         self.tabs.addTab(self.dashboard, "📊 Dashboard")
         
-        # Placeholder Tabs (will be implemented)
-        self.tabs.addTab(QLabel("Products & Clips management"), "📦 Products")
-        self.tabs.addTab(QLabel("Order history and details"), "📋 Orders")
-        self.tabs.addTab(QLabel("Client management"), "🤖 Clients")
+        # Products Tab
+        self.products_panel = ProductsPanel()
+        self.tabs.addTab(self.products_panel, "📦 Products")
+        
+        # Orders Tab
+        self.orders_panel = OrdersPanel()
+        self.tabs.addTab(self.orders_panel, "📋 Orders")
+        
+        # Clients Tab
+        self.clients_panel = ClientsPanel()
+        self.tabs.addTab(self.clients_panel, "🤖 Clients")
         
         # Settings Tab
         self.settings_panel = SettingsPanel(self)

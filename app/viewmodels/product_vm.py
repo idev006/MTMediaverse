@@ -4,9 +4,9 @@ Handles product folder import with upsert logic.
 
 Features:
 - Drag & drop folder import
-- Read prod.json for product data
+- Read prod.json for product data (via ProdConfig)
 - Upsert: Create if not exists, Update if exists
-- Import video clips with SHA256 duplicate prevention
+- Video clip import with duplicate prevention
 """
 
 import json
@@ -23,6 +23,7 @@ from app.core.database import (
 from app.core.event_bus import get_event_bus
 from app.core.log_orchestrator import get_log_orchestrator
 from app.core.error_orchestrator import get_error_orchestrator, ErrorCategory, ErrorSeverity
+from app.core.prod_config import ProdConfig
 from app.viewmodels.media_vm import MediaVM, get_media_vm, FolderImportResult
 
 
@@ -122,31 +123,29 @@ class ProductVM:
             self._log.error(f"Failed to copy prod.json: {e}")
             return False
     
-    def get_prod_config(self, prod_code: str) -> Optional[Dict[str, Any]]:
+    def get_prod_config(self, prod_code: str) -> Optional[ProdConfig]:
         """
-        Get full prod.json config for a product.
+        Get ProdConfig for a product.
         
-        Used when preparing orders to get platform-specific configs.
+        ProdConfig is the bridge between prod.json and the system.
         
         Args:
             prod_code: Product code
             
         Returns:
-            Full prod.json data or None if not found
+            ProdConfig object or None if not found
         """
         json_path = self.get_prod_json_path(prod_code)
         
         if not json_path.exists():
             return None
         
-        try:
-            with open(json_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception as e:
-            self._log.error(f"Failed to read prod config for {prod_code}: {e}")
-            return None
+        config = ProdConfig.from_file(str(json_path))
+        if not config:
+            self._log.error(f"Failed to read prod config for {prod_code}")
+        return config
     
-    def get_platform_config(self, prod_code: str, platform: str) -> Optional[Dict[str, Any]]:
+    def get_platform_config(self, prod_code: str, platform: str):
         """
         Get platform-specific config for a product.
         
@@ -155,11 +154,11 @@ class ProductVM:
             platform: Platform name (youtube, tiktok, shopee, etc.)
             
         Returns:
-            Platform config dict or None
+            PlatformConfig object or None
         """
         config = self.get_prod_config(prod_code)
         if config:
-            return config.get('platforms', {}).get(platform)
+            return config.get_platform(platform)
         return None
     
     # ========================================================================

@@ -17,88 +17,89 @@
             "Vitaplus",
             "สบู่แก้คัน",
             "ของใช้ส่วนตัว"
-        ]
+        ],
+        "category_id": 22,
+        "privacy": "unlisted"
     },
-    "platforms": {
-        "shopee": {
-            "urls_list": [
-                {
-                    "label": "Asepso อาเซปโซ สบู่ก้อน มี 5 สูตร (ลดแบคทีเรีย/สิว/ผดผื่น/กลิ่นกาย) - ร้าน Poli Pola",
-                    "url": "https://s.shopee.co.th/30hI3ojQoe",
-                    "is_primary": true
-                },
-                {
-                    "label": "Asepso Soap สบู่อาเซปโซ สูตร Gentle/Sport (70/80g) - ร้านกำตังค์",
-                    "url": "https://s.shopee.co.th/3B0iG7inTh",
-                    "is_primary": false
-                },
-                {
-                    "label": "สบู่ Asepso Vitaplus อาเซปโซ วีต้าพลัส (70/80 g.) - ร้าน Tarad Thai",
-                    "url": "https://s.shopee.co.th/2g4RfCkhUc",
-                    "is_primary": false
-                },
-                {
-                    "label": "[สุดคุ้ม 4 ก้อน] สบู่อาเซปโซ Original (80g x 4) - ร้าน TON SHOPPING",
-                    "url": "https://s.shopee.co.th/2qNrrVk49f",
-                    "is_primary": false
-                },
-                {
-                    "label": "Asepso Vitaplus อาเซปโซ สบู่ก้อน สบู่อนามัย บำรุงผิว - ร้าน Mega Mall Thailand",
-                    "url": "https://s.shopee.co.th/50SMRUbol6",
-                    "is_primary": false
-                },
-                {
-                    "label": "[แพ็ค 4 ก้อน] Asepso Soap อาเซปโซ สบู่ก้อน (80g/70g) - ร้าน Thanawat-Siriraj",
-                    "url": "https://s.shopee.co.th/5AlmdnbBQ9",
-                    "is_primary": false
-                }
-            ]
+    "schedule_times": {
+        "sun": ["10:00", "12:00"],
+        "mon": ["10:00", "12:00"],
+        "tue": ["10:00", "12:00"],
+        "wed": ["10:00", "12:00"],
+        "thu": ["10:00", "12:00"],
+        "fri": ["10:00", "12:00"],
+        "sat": ["10:00", "12:00"]
+    },
+    "aff_products": [
+        {
+            "aff_prod_code": "24141315212",
+            "aff_prod_name": "Asepso อาเซปโซ สบู่ก้อน สบู่อนามัย ลดแบคทีเรีย สิว ผดผื่น กลิ่นกาย บำรุงผิว 1 ก้อน มีให้เลือก 5 สูตร"
         },
-        "tiktok": {
-            "schedule_times": {
-                "sun": [
-                    "10:00",
-                    "12:00"
-                ],
-                "mon": [
-                    "10:00",
-                    "12:00"
-                ],
-                "tue": [
-                    "10:00",
-                    "12:00"
-                ],
-                "wed": [
-                    "10:00",
-                    "12:00"
-                ],
-                "thu": [
-                    "10:00",
-                    "12:00"
-                ],
-                "fri": [
-                    "10:00",
-                    "12:00"
-                ],
-                "sat": [
-                    "10:00",
-                    "12:00"
-                ]
-            }
+        {
+            "aff_prod_code": "19928092666",
+            "aff_prod_name": "Asepso Soap สบู่อาเซปโซ เจนเทิล/สปอร์ต ขนาด 70/80 กรัม by กำตังค์"
         },
-        "youtube": {
-            "playlist": {
-                "playlist_id": null,
-                "playlist_name": "AsepsoSoap001",
-                "create_if_not_exists": true
-            },
-            "category_id": 22,
-            "privacy": "unlisted",
-            "upload_config": {
-                "made_for_kids": false,
-                "notify_subscribers": true,
-                "embeddable": true
-            }
+        {
+            "aff_prod_code": "4371412074",
+            "aff_prod_name": "สบู่ อาเซปโซ วีต้าพลัส 70/80 กรัม Asepso Vitaplus 70/80 g."
+        },
+        {
+            "aff_prod_code": "29231933828",
+            "aff_prod_name": "สบู่อาเซปโซ Original ขนาด 80 กรัม* 4"
+        },
+        {
+            "aff_prod_code": "24407238670",
+            "aff_prod_name": "Asepso Vitaplus อาเซปโซ สบู่ก้อน สบู่อนามัย ลดแบคทีเรีย สิว ผดผื่น กลิ่นกาย บำรุงผิว"
+        },
+        {
+            "aff_prod_code": "16495821852",
+            "aff_prod_name": "(แพ็ค 4ก้อน) Asepso Soap อาเซปโซ สบู่ก้อน 80กรัม./70กรัม."
         }
+    ],
+    "playlist": {
+        "playlist_id": null,
+        "playlist_name": "AsepsoSoap001",
+        "create_if_not_exists": true
+    },
+    "aff_detail": {
+        "platform": "shopee",
+        "urls_list": [
+            {
+                "label": "Asepso อาเซปโซ สบู่ก้อน มี 5 สูตร (ลดแบคทีเรีย/สิว/ผดผื่น/กลิ่นกาย) - ร้าน Poli Pola",
+                "url": "https://s.shopee.co.th/30hI3ojQoe",
+                "is_primary": true
+            },
+            {
+                "label": "Asepso Soap สบู่อาเซปโซ สูตร Gentle/Sport (70/80g) - ร้านกำตังค์",
+                "url": "https://s.shopee.co.th/3B0iG7inTh",
+                "is_primary": false
+            },
+            {
+                "label": "สบู่ Asepso Vitaplus อาเซปโซ วีต้าพลัส (70/80 g.) - ร้าน Tarad Thai",
+                "url": "https://s.shopee.co.th/2g4RfCkhUc",
+                "is_primary": false
+            },
+            {
+                "label": "[สุดคุ้ม 4 ก้อน] สบู่อาเซปโซ Original (80g x 4) - ร้าน TON SHOPPING",
+                "url": "https://s.shopee.co.th/2qNrrVk49f",
+                "is_primary": false
+            },
+            {
+                "label": "Asepso Vitaplus อาเซปโซ สบู่ก้อน สบู่อนามัย บำรุงผิว - ร้าน Mega Mall Thailand",
+                "url": "https://s.shopee.co.th/50SMRUbol6",
+                "is_primary": false
+            },
+            {
+                "label": "[แพ็ค 4 ก้อน] Asepso Soap อาเซปโซ สบู่ก้อน (80g/70g) - ร้าน Thanawat-Siriraj",
+                "url": "https://s.shopee.co.th/5AlmdnbBQ9",
+                "is_primary": false
+            }
+        ],
+        "discount_code": null
+    },
+    "upload_config": {
+        "made_for_kids": false,
+        "notify_subscribers": true,
+        "embeddable": true
     }
 }
