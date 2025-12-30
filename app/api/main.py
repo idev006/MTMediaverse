@@ -489,5 +489,105 @@ async def heartbeat(request: HeartbeatRequest):
 
 
 # ============================================================================
+# Product API Endpoints
+# ============================================================================
+
+class ImportFolderRequest(BaseModel):
+    """Request to import a product folder."""
+    folder_path: str
+    category_name: Optional[str] = None
+
+
+class ValidateFolderRequest(BaseModel):
+    """Request to validate a product folder."""
+    folder_path: str
+
+
+@app.post("/api/products/import")
+async def import_product_folder(request: ImportFolderRequest):
+    """
+    Import a product folder with prod.json and video clips.
+    
+    GUI ใช้สำหรับ drag-drop หรือ browse folder
+    """
+    from app.api.services import get_product_service
+    
+    service = get_product_service()
+    result = service.import_folder(
+        folder_path=request.folder_path,
+        category_name=request.category_name
+    )
+    
+    if result.success:
+        return {
+            "success": True,
+            "product_code": result.product_code,
+            "product_name": result.product_name,
+            "is_new": result.is_new,
+            "media_imported": result.media_import.imported_count if result.media_import else 0,
+            "media_skipped": result.media_import.skipped_count if result.media_import else 0,
+        }
+    else:
+        raise HTTPException(status_code=400, detail=result.errors)
+
+
+@app.post("/api/products/validate")
+async def validate_product_folder(request: ValidateFolderRequest):
+    """
+    Validate a product folder before import.
+    
+    ตรวจสอบว่า folder มี prod.json และ video files
+    """
+    from app.api.services import get_product_service
+    
+    service = get_product_service()
+    result = service.validate_folder(request.folder_path)
+    
+    return result
+
+
+@app.get("/api/products")
+async def list_products(limit: int = 100, category_id: Optional[int] = None):
+    """
+    List all products.
+    """
+    from app.api.services import get_product_service
+    
+    service = get_product_service()
+    products = service.list_products(limit=limit, category_id=category_id)
+    
+    return {"products": products, "count": len(products)}
+
+
+@app.get("/api/products/{prod_code}")
+async def get_product(prod_code: str):
+    """
+    Get product details by code.
+    """
+    from app.api.services import get_product_service
+    
+    service = get_product_service()
+    product = service.get_product(prod_code)
+    
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    
+    return product
+
+
+@app.get("/api/categories")
+async def list_categories():
+    """
+    List all product categories.
+    """
+    from app.api.services import get_product_service
+    
+    service = get_product_service()
+    categories = service.list_categories()
+    
+    return {"categories": categories, "count": len(categories)}
+
+
+# ============================================================================
 # Run with: uvicorn app.api.main:app --reload --port 8000
 # ============================================================================
